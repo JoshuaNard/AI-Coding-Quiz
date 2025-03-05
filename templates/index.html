@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeetCode</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="static/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/loader.min.js"></script>
+</head>
+<body>
+    <h1>{{ problem.title }}</h1>
+    <p>{{ problem.description }}</p>
+    
+    <div id="editor-container">
+        <div id="editor"></div>
+    </div>
+    <br>
+    <label>
+        <input type="checkbox" id="autocomplete-toggle" checked>
+        Enable Auto-Complete
+    </label>
+    <br>
+    <button onclick="submitCode()">Run Code</button>
+    
+    <h3>Output:</h3>
+    <pre id="output">No output yet</pre>
+    
+    <script src="static/script.js"></script>
+    <script>
+        var editor;
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs' }});
+        require(["vs/editor/editor.main"], function() {
+            editor = monaco.editor.create(document.getElementById("editor"), {
+                value: "# Write your Python code here\nprint(\"Hello, World!\")",
+                language: "python",
+                theme: "vs-dark",
+                fontSize: 14,
+                fontFamily: "Fira Code, Consolas, monospace",
+                lineHeight: 22,
+                wordWrap: "on",
+                minimap: { enabled: false },
+                automaticLayout: true
+            });
+
+            // Ensure layout recalculates properly
+            setTimeout(() => {
+                editor.layout();
+            }, 1000);
+        });
+        
+        document.getElementById("autocomplete-toggle").addEventListener("change", function() {
+            let enabled = this.checked;
+            editor.updateOptions({ quickSuggestions: enabled });
+        });
+    </script>
+</body>
+</html>

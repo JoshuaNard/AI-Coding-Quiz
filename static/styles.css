@@ -1,0 +1,72 @@
+body {
+    background-color: #1e1e2e;
+    color: #c0caf5;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #bb9af7;
+    font-size: 2em;
+}
+
+p {
+    color: #a9b1d6;
+    font-size: 1.2em;
+}
+
+#editor-container {
+    width: 80%;
+    height: 300px;
+    margin: auto;
+    border-radius: 8px;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    overflow: hidden;
+    position: relative;
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+}
+
+.monaco-editor {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 15px;
+    background: linear-gradient(135deg, #7aa2f7, #bb9af7);
+    color: #1e1e2e;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #bb9af7, #7aa2f7);
+}
+
+pre {
+    background: #24283b;
+    padding: 15px;
+    color: #c0caf5;
+    font-size: 1.2em;
+    border-radius: 8px;
+    width: 80%;
+    margin: auto;
+}
