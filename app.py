@@ -4,18 +4,17 @@ import random
 import uuid
 import os
 import openai
+from dotenv import load_dotenv
 
+load_dotenv()
 
 app = Flask(__name__, template_folder="templates")
 
-# 🔒 Use environment variable for API key (safer than hardcoding)
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPEN_API_KEY")
 
-# Ensure API key is set
 if not OPENAI_API_KEY:
     raise ValueError("Missing OpenAI API key! Set OPENAI_API_KEY as an environment variable.")
 
-# ✅ Generate test cases dynamically
 def generate_test_cases():
     """Generates random test cases for a simple problem."""
     cases = []
@@ -44,13 +43,11 @@ def submit_solution():
     if not user_code:
         return jsonify({"error": "No code provided"}), 400
 
-    # ✅ Securely execute the user’s code and check results
     result, error = execute_code(user_code, problem)
 
     if error:
         return jsonify({"error": error}), 400
 
-    # ✅ AI Feedback using OpenAI API
     feedback = analyze_code(user_code)
 
     return jsonify({"score": result["score"], "feedback": feedback, "output": result["outputs"]})
@@ -97,15 +94,15 @@ def execute_code(user_code, test_cases):
 def analyze_code(user_code):
     """Analyzes the submitted code using OpenAI API for structured feedback."""
     try:
-        client = openai.OpenAI(api_key=OPENAI_API_KEY)  # ✅ Correct way to initialize OpenAI client
+        client = openai.OpenAI(api_key=OPENAI_API_KEY)  
 
         prompt = f"""
         You are an AI code grader. Evaluate the following Python code based on these criteria:
 
-        **Correctness:** ✅ Does the code work as expected?
-        **Efficiency:** ⚡ Is the code optimized and efficient?
-        **Best Practices:** 📝 Is the code well-structured and readable?
-        **Final Score:** ⭐⭐⭐⭐⭐ (1-5 stars)
+        **Correctness:**  Does the code work as expected?
+        **Efficiency:**  Is the code optimized and efficient?
+        **Best Practices:**  Is the code well-structured and readable?
+        **Final Score:**  (1-5 stars)
 
         **User Code:**
         ```
@@ -118,7 +115,7 @@ def analyze_code(user_code):
         **Correctness:** [Your feedback]
         **Efficiency:** [Your feedback]
         **Best Practices:** [Your feedback]
-        **Final Score:** ⭐⭐⭐⭐⭐ (1-5 stars)
+        **Final Score:** (1-5 stars)
         ---
         """
 

@@ -1,0 +1,6 @@
+TO DO:
+    1:) have AI create question based on difficulty(If I go in that direction) or have a daily question
+    2:) Clean up the website and make it look much more appealing
+    3:) Add a daily token limit 
+    4:) Add a hint feature
+    5:) ...
