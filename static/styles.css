@@ -27,6 +27,7 @@ p {
     justify-content: stretch;
     overflow: hidden;
     position: relative;
+    text-align: left; /* Ensure text inside is left-aligned */
 }
 
 #editor {
@@ -35,6 +36,7 @@ p {
     position: absolute !important;
     top: 0;
     left: 0;
+    text-align: left; /* Force left alignment */
 }
 
 .monaco-editor {
@@ -43,6 +45,7 @@ p {
     left: 0;
     width: 100% !important;
     height: 100% !important;
+    text-align: left !important; /* Force left alignment inside Monaco Editor */
 }
 
 button {
