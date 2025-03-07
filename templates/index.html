@@ -3,36 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI LeetCode</title>
+    <title>FixMySyntax - AI Code Review</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="static/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/loader.min.js"></script>
 </head>
 <body>
-    <h1>{{ problem.title }}</h1>
-    <p>{{ problem.description }}</p>
-    
-    <div id="editor-container">
-        <div id="editor"></div>
+    <!-- Header Navigation -->
+    <header>
+        <div id="nav-logo">FixMySyntax</div>
+        <nav>
+            <ul>
+                <li><a href="#">Problems</a></li>
+                <li><a href="#">Submissions</a></li>
+                <li><a href="#">Leaderboard</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="container">
+        <!-- Left Panel -->
+        <div id="left-panel">
+            <h2>{{ problem.title }}</h2>
+            <p><strong>Difficulty:</strong> {{ problem.difficulty }}</p>
+            <p>{{ problem.description }}</p>
+
+            <div id="test-cases">
+                <h3>Test Cases:</h3>
+                <ul id="test-cases-list"></ul>
+            </div>
+
+            <div id="hints">
+                <h3>AI Hints:</h3>
+                <p id="ai-hint">Click 'Submit' to get feedback.</p>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div id="right-panel">
+            <div id="editor-container">
+                <div id="editor"></div>
+            </div>
+
+            <div id="buttons">
+                <label>
+                    <input type="checkbox" id="autocomplete-toggle" checked>
+                    Enable Auto-Complete
+                </label>
+                <button onclick="runCode()">Run Code</button>
+                <button onclick="submitCode()">Submit</button>
+            </div>
+
+            <h3>Time Spent: <span id="timer">0s</span></h3>
+            <!-- Submission Animation -->
+            <div id="submission-animation">
+                <div class="loading-spinner"></div>
+                <p>Fixing Your Syntax...</p>
+            </div>
+            <div id="output-container">
+                <h3>Output:</h3>
+                <pre id="output">No output yet</pre>
+            </div>
+        </div>
     </div>
-    <br>
-    <label>
-        <input type="checkbox" id="autocomplete-toggle" checked>
-        Enable Auto-Complete
-    </label>
-    <br>
-    <button onclick="submitCode()">Run Code</button>
-    
-    <h3>Output:</h3>
-    <pre id="output">No output yet</pre>
-    
+
     <script src="static/script.js"></script>
     <script>
         var editor;
-        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs' }});
+        var timeSpent = 0;
+        setInterval(() => {
+            timeSpent++;
+            document.getElementById("timer").innerText = timeSpent + "s";
+        }, 1000);
+        
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs' }}); 
         require(["vs/editor/editor.main"], function() {
             editor = monaco.editor.create(document.getElementById("editor"), {
-                value: "# Write your Python code here\nprint(\"Hello, World!\")",
+                value: `{{ problem.function_signature | safe }}\n    `,
                 language: "python",
                 theme: "vs-dark",
                 fontSize: 14,
@@ -40,19 +89,36 @@
                 lineHeight: 22,
                 wordWrap: "on",
                 minimap: { enabled: false },
-                automaticLayout: true
+                automaticLayout: true,
+                readOnly: false
             });
-
-            // Ensure layout recalculates properly
-            setTimeout(() => {
-                editor.layout();
-            }, 1000);
-        });
-        
-        document.getElementById("autocomplete-toggle").addEventListener("change", function() {
-            let enabled = this.checked;
-            editor.updateOptions({ quickSuggestions: enabled });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let testCases = JSON.parse('{{ problem.test_cases | tojson | safe }}'); 
+            let testCasesList = document.getElementById("test-cases-list");
+
+            // Clear previous content
+            testCasesList.innerHTML = "";
+
+            if (testCases.length === 0) {
+                testCasesList.innerHTML = "<p>No test cases available.</p>";
+            } else {
+                testCases.forEach((test, index) => {
+                    let inputStr = JSON.stringify(test.input, null, 2); // Pretty-print JSON
+                    let expectedOutput = JSON.stringify(test.expected_output);
+
+                    let li = document.createElement("li");
+                    li.innerHTML = `
+                        <strong>Test ${index + 1}:</strong> 
+                        <pre>Input: ${inputStr}</pre> 
+                        <pre>Expected Output: ${expectedOutput}</pre>
+                    `;
+                    testCasesList.appendChild(li);
+                });
+            }
+        });
+    </script>   
 </body>
 </html>

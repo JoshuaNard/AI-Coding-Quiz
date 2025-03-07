@@ -1,0 +1,59 @@
+### 1. Write a function to check if a number is even or odd.
+**Function Signature:** def is_even(n: int) -> bool:`
+
+#### Test Cases:
+```python
+assert is_even(2) == True
+assert is_even(5) == False
+assert is_even(0) == True
+assert is_even(-4) == True
+assert is_even(-3) == False
+```
+
+### 2. Write a function to calculate the factorial of a number.
+**Function Signature:** def factorial(n: int) -> int:`
+
+#### Test Cases:
+```python
+assert factorial(0) == 1
+assert factorial(1) == 1
+assert factorial(5) == 120
+assert factorial(3) == 6
+assert factorial(7) == 5040
+```
+
+### 3. Write a function to check if a string is a palindrome.
+**Function Signature:** def is_palindrome(s: str) -> bool:`
+
+#### Test Cases:
+```python
+assert is_palindrome("racecar") == True
+assert is_palindrome("hello") == False
+assert is_palindrome("A man a plan a canal Panama") == True
+assert is_palindrome("Python") == False
+assert is_palindrome("") == True
+```
+
+### 4. Write a function to return the nth Fibonacci number.
+**Function Signature:** def fibonacci(n: int) -> int:`
+
+#### Test Cases:
+```python
+assert fibonacci(0) == 0
+assert fibonacci(1) == 1
+assert fibonacci(5) == 5
+assert fibonacci(10) == 55
+assert fibonacci(7) == 13
+```
+
+### 5. Write a function to find the maximum number in a list.
+**Function Signature:** def find_max(lst: list) -> int:`
+
+#### Test Cases:
+```python
+assert find_max([1, 2, 3, 4, 5]) == 5
+assert find_max([-10, -5, 0, 5, 10]) == 10
+assert find_max([100]) == 100
+assert find_max([-3, -1, -7]) == -1
+assert find_max([7, 7, 7, 7]) == 7
+```

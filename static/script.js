@@ -1,23 +1,21 @@
 function submitCode() {
     let userCode = editor.getValue();
     let outputElement = document.getElementById("output");
+    let loader = document.getElementById("submission-animation");
 
-    // Display "AI is thinking..." animation
-    let thinkingText = "AI is analyzing your code";
-    outputElement.innerText = thinkingText;
-    let dots = 0;
-    let thinkingInterval = setInterval(() => {
-        dots = (dots + 1) % 4; // Cycle between 0-3 dots
-        outputElement.innerText = thinkingText + ".".repeat(dots);
-    }, 500);
+    // Show animation
+    loader.style.display = "flex";
 
     axios.post('/submit_solution', { code: userCode })
         .then(response => {
-            clearInterval(thinkingInterval); // Stop animation
-            typeWriterEffect(outputElement, "Feedback: " + response.data.feedback, 30);
+            // Hide animation after receiving response
+            setTimeout(() => {
+                loader.style.display = "none";
+                typeWriterEffect(outputElement, "Feedback: " + response.data.feedback, 30);
+            }, 1000);
         })
         .catch(error => {
-            clearInterval(thinkingInterval); // Stop animation
+            loader.style.display = "none";
             outputElement.innerText = "Error: " + 
                 (error.response ? error.response.data.error : "Something went wrong.");
         });
